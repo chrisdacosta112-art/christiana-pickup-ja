@@ -1,1 +1,37 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Christiana Pick Up JA — Book</title><link rel="stylesheet" href="style.css"></head><body><header><div class="brand">CHRISTIANA <span>PICK UP JA</span></div><a href="/login.html">Driver Login</a></header><main><section class="hero"><div><p class="eyebrow">CHRISTIANA • MANCHESTER • JAMAICA</p><h1>Need a ride?<br><span>We got you.</span></h1><p>Taxi, ride, rental or charter — request transportation from Christiana to destinations across Manchester and beyond.</p></div><img src="/poster.png" alt="Christiana Pick Up JA"></section><section class="card"><h2>Request a booking</h2><p class="muted">Send your trip details and a driver will respond.</p><form id="form"><div class="grid"><label>Name<input id="name" required></label><label>Phone / WhatsApp<input id="phone" type="tel" required placeholder="876..." ></label><label>Pickup<input id="pickup" required placeholder="Christiana"></label><label>Destination<input id="destination" required placeholder="Kingston, Spalding, Mandeville..." ></label><label>Service<select id="service"><option>Taxi</option><option>Ride / Pickup</option><option>Rental</option><option>Charter</option></select></label><label>Passengers<select id="passengers"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></label><label>Date<input id="ride_date" type="date" required></label><label>Time<input id="ride_time" type="time" required></label></div><label>Extra details<textarea id="notes" rows="3" placeholder="Landmark, flight details, child seat, etc."></textarea><button>REQUEST RIDE</button><div id="result" class="result"></div></form></section></main><footer>876 375-0403 • 876 512-0268</footer><script>const $=id=>document.getElementById(id);form.onsubmit=async e=>{e.preventDefault();result.textContent='Sending booking…';const body={name:name.value,phone:phone.value,pickup:pickup.value,destination:destination.value,service:service.value,passengers:passengers.value,ride_date:ride_date.value,ride_time:ride_time.value,notes:notes.value};try{let r=await fetch('https://christiana-pickup-ja.onrender.com/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),j=await r.json();if(!r.ok)throw Error(j.error||'Booking failed');form.reset();result.textContent='✅ Booking received! We will contact you shortly.'}catch(err){result.textContent='❌ '+err.message}}</script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Christiana Pick Up JA — Book</title><link rel="stylesheet" href="style.css"></head><body><header><div class="brand">CHRISTIANA <span>PICK UP JA</span></div><a href="/login.html">Driver Login</a></header><main><section class="hero"><div><p class="eyebrow">CHRISTIANA • MANCHESTER • JAMAICA</p><h1>Need a ride?<br><span>We got you.</span></h1><p>Taxi, ride, rental or charter — request transportation from Christiana to destinations across Manchester and beyond.</p></div><img src="/poster.png" alt="Christiana Pick Up JA"></section><section class="card"><h2>Request a booking</h2><p class="muted">Send your trip details and a driver will respond.</p><form id="form"><div class="grid"><label>Name<input id="name" required></label><label>Phone / WhatsApp<input id="phone" type="tel" required placeholder="876..." ></label><label>Pickup<input id="pickup" required placeholder="Christiana"></label><label>Destination<input id="destination" required placeholder="Kingston, Spalding, Mandeville..." ></label><label>Service<select id="service"><option>Taxi</option><option>Ride / Pickup</option><option>Rental</option><option>Charter</option></select></label><label>Passengers<select id="passengers"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></label><label>Date<input id="ride_date" type="date" required></label><label>Time<input id="ride_time" type="time" required></label></div><label>Extra details<textarea id="notes" rows="3" placeholder="Landmark, flight details, child seat, etc."></textarea><button>REQUEST RIDE</button><div id="result" class="result"></div></form></section></main><footer>876 375-0403 • 876 512-0268</footer><script>
+
+const form = document.getElementById('form');
+
+const result = document.getElementById('result');
+
+form.onsubmit = async (e) => {
+
+  e.preventDefault();
+
+  result.textContent = 'Sending booking…';
+
+  const body = {
+
+    name: document.getElementById('name').value.trim(),
+
+    phone: document.getElementById('phone').value.trim(),
+
+    pickup: document.getElementById('pickup').value.trim(),
+
+    destination: document.getElementById('destination').value.trim(),
+
+    service: document.getElementById('service').value,
+
+    passengers: document.getElementById('passengers').value,
+
+    ride_date: document.getElementById('ride_date').value,
+
+    ride_time: document.getElementById('ride_time').value,
+
+    notes: document.getElementById('notes').value.trim()
+
+  };
+
+  try {
+
+    const r = await fetch('/api/bookings',
